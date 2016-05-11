@@ -38,4 +38,4 @@ authConfig(Vue);
 
 router.start(App, '#app');
 
-window.router = router
+window.router = router;
