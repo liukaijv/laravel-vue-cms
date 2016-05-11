@@ -1,6 +1,6 @@
 # laravel-vue-cms
 
-learn laravel & vue.js
+learn laravel & vue.js, built with laravel5.2, vue.js 1.0+
 
 ## clone & install dependencies
 
