@@ -6,13 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
+use App\User;
 use Validator;
+use Hash;
 
-use App\Post;
-use App\Category;
-use App\Tag;
-
-class PostController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,9 +22,9 @@ class PostController extends Controller
     {
         $current_page = $request->input('page', 1);
         $page_size = $request->input('page_size', 15);
-        $posts = Post::with('category')->latest()->forPage($current_page, $page_size)->get();
-        $count = Post::count();
-        return response()->json(['flag' => true, 'data' => $posts, 'count' => $count]);
+        $users = User::forPage($current_page, $page_size)->get();
+        $count = User::count();
+        return response()->json(['flag' => true, 'data' => $users, 'count' => $count]);
     }
 
     /**
@@ -35,9 +34,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $tags = Tag::all();
-        return response()->json(['flag' => true, 'categories' => $categories, 'tags' => $tags]);
+        //
     }
 
     /**
@@ -48,37 +45,29 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $category_id = $request->get('category_id', 0);
-        $hasSelectedCategory = $category_id > 0;
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:posts',
-            'content' => 'required'
+            'email' => 'required|email|unique:admins',
+            'password' => 'required|same:repeat_password',
+            'repeat_password' => 'required'
         ], [
-            'title.required' => '标题必填',
-            'title.unique' => '标题不能重复',
-            'content.required' => '内容必填'
+            'email.required' => '邮箱必填',
+            'email.email' => '邮箱格式不正确',
+            'email.unique' => '邮箱已存在',
+            'password.required' => '密码必填',
+            'password.same' => '两次密码不一致',
+            'repeat_password.required' => '密码确认必填'
         ]);
-        if (!$category_id || $category_id == 0 || $category_id == '0') {
-            $validator->errors()->add('category_id', '选择分类');
-        }
-        if ($validator->fails() || !$hasSelectedCategory) {
-            if (!$hasSelectedCategory) {
-                $validator->errors()->add('category_id', '选择分类');
-            }
+
+        if ($validator->fails()) {
             return response()->json(['flag' => false, 'msg' => '验证未通过', 'errors' => $validator->errors()]);
         }
 
-        if ($post = Post::create($request->all())) {
-            $tagIds = $request->get('tagIds');
-            if ($tagIds && is_array($tagIds)) {
-                $post->tags()->sync($tagIds);
-            }
+        $request->password = Hash::make($request->password);
+        if (User::create($request->all())) {
             return response()->json(['flag' => true, 'msg' => '添加成功']);
         }
 
-
         return response()->json(['flag' => false, 'msg' => '添加失败']);
-
     }
 
     /**
@@ -100,11 +89,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::with('tags')->find($id);
-        $categories = Category::all();
-        $tags = Tag::all();
-        if ($post) {
-            return response()->json(['flag' => true, 'msg' => '数据获取成功', 'data' => $post, 'categories' => $categories, 'tags' => $tags]);
+        $user = User::find($id);
+        if ($user) {
+            return response()->json(['flag' => true, 'msg' => '数据获取成功', 'data' => $user]);
         }
         return response()->json(['flag' => false, 'msg' => '数据获取失败']);
     }
@@ -118,28 +105,31 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Post::find($id);
-        if (!$post) {
+        $user = User::find($id);
+        if (!$user) {
             return response()->json(['flag' => false, 'msg' => '修改失败']);
         }
         $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'content' => 'required'
+            'email' => 'required|email'
         ], [
-            'title.required' => '标题必填',
-            'content.required' => '内容必填'
+            'email.required' => '邮箱必填',
+            'email.email' => '邮箱格式不正确'
         ]);
         if ($validator->fails()) {
             return response()->json(['flag' => false, 'msg' => '验证未通过', 'errors' => $validator->errors()]);
         }
-
-        if ($post->update($request->all())) {
-            $tagIds = $request->get('tagIds');
-            if ($tagIds && is_array($tagIds)) {
-                $post->tags()->sync($tagIds);
+        $data = [];
+        $password = $request->get('password', '');
+        $new_password = $request->get('new_password', '');
+        if ($password && $new_password) {
+            if (!Hash::check($password, $user->password)) {
+                return response()->json(['flag' => false, 'msg' => '原始密码不正确']);
             }
-            return response()->json(['flag' => true, 'msg' => '修改成功']);
+            $data['password'] = Hash::make($new_password);
         }
+        $data = array_merge($data, $request->only('name', 'email', 'image'));
+        $user->update($data);
+        return response()->json(['flag' => true, 'msg' => '修改成功', 'data' => $user]);
 
         return response()->json(['flag' => false, 'msg' => '修改失败']);
     }
@@ -152,11 +142,6 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
-        if ($post) {
-            $post->delete();
-            return response()->json(['flag' => true, 'msg' => '删除成功']);
-        }
-        return response()->json(['flag' => false, 'msg' => '删除失败']);
+        //
     }
 }

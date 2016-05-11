@@ -49,6 +49,9 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'backend'], function () {
         Route::resource('admin', 'AdminController');
         Route::resource('category', 'CategoryController');
         Route::resource('post', 'PostController');
+        Route::resource('user', 'UserController');
+        Route::resource('tag', 'TagController');
+        Route::resource('comment', 'CommentController');
 
     });
 

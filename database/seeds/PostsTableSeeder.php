@@ -15,15 +15,20 @@ class PostsTableSeeder extends Seeder
         $faker = Faker::create();
 
         $categoryIds = \App\Category::lists('id')->toArray();
+        $tagIds = \App\Tag::lists('id')->toArray();
 
         foreach (range(1, 30) as $index) {
 
-            \App\Post::create([
+            $post = \App\Post::create([
                 'title' => $faker->title(),
                 'description' => $faker->sentence(),
                 'category_id' => $faker->randomElement($categoryIds),
                 'content' => $faker->paragraph()
             ]);
+
+            $tags = $faker->randomElements($tagIds, 3);
+
+            $post->tags()->sync($tags);
 
         }
     }

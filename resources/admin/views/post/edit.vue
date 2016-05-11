@@ -41,6 +41,19 @@
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">文章标签：</label>
+
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="select2" multiple="multiple" style="display: none;">
+                                            <option v-for="tag in tags" :value="tag.id"
+                                                    :selected="inArray(initSelectedTds,tag.id)">
+                                                {{tag.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">文章描述：</label>
 
                                     <div class="col-sm-10">
@@ -82,18 +95,25 @@
 
     import BreadCrumb from '../partial/bread-crumb';
     import Editor from '../../components/editor';
+    import {extend} from '../../lib/utils';
+
+    import '../../assets/js/plugins/select2/select2.css';
+    import '../../assets/js/plugins/select2/select2';
 
     export default {
         ready: function () {
+            let vm = this;
             this.data.id = this.$route.params.id;
-            this.$http.get('post/' + this.data.id + '/edit').then(function (result) {
-                let data = result.data;
-                if (data.flag == true && data.data) {
-                    this.data = data.data;
-                    this.categories = data.categories;
-                }
-                this.$toast['success'](data.msg);
-            })
+
+            this.getData().then(function () {
+                $('#select2').select2({
+                    placeholder: '选择标签',
+                    tags: true
+                }).on('change.select2', function () {
+                    vm.data.tagIds = ($('#select2').val());
+                }).trigger('change');
+            });
+
         },
         data: function () {
             return {
@@ -109,13 +129,25 @@
                     }
                 ],
                 categories: [],
+                tags: [],
                 data: {
                     title: '',
                     category_id: 0,
                     description: '',
+                    tags: [],
+                    tagIds: [],
                     content: ''
                 },
                 errors: null
+            }
+        },
+        computed: {
+            initSelectedTds: function () {
+                let arr = [];
+                for (let index in this.data.tags) {
+                    arr.push(this.data.tags[index]['id']);
+                }
+                return arr;
             }
         },
         components: {
@@ -123,6 +155,25 @@
             'editor': Editor
         },
         methods: {
+            inArray: function (array, item) {
+                return Array.indexOf(array, item) > -1;
+            },
+            getData: function () {
+                return new Promise(function (resolve, reject) {
+                    this.$http.get('post/' + this.data.id + '/edit').then(function (result) {
+                        let data = result.data;
+                        if (data.flag == true && data.data) {
+                            this.data = extend(this.data, data.data);
+                            this.categories = data.categories;
+                            this.tags = data.tags;
+                        }
+                        this.$toast['success'](data.msg);
+                        resolve(result);
+                    }, function (error) {
+                        reject(error);
+                    });
+                }.bind(this));
+            },
             updateData: function () {
                 this.$http.put('post/' + this.data.id, this.data).then(function (result) {
                     let data = result.data;

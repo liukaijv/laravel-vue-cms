@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->longText('content');
             $table->string('image');
             $table->boolean('visible')->default(1);
+            $table->boolean('allow_comment')->default(1);
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });

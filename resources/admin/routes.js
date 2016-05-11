@@ -7,13 +7,25 @@ import AdminIndexComponent from './views/admin/index';
 import AdminCreateComponent from './views/admin/create';
 import AdminEditComponent from './views/admin/edit';
 
+import CategoryIndexComponent from './views/category/index';
+import CategoryCreateComponent from './views/category/create';
+import CategoryEditComponent from './views/category/edit';
+
 import PostIndexComponent from './views/post/index';
 import PostCreateComponent from './views/post/create';
 import PostEditComponent from './views/post/edit';
 
-import CategoryIndexComponent from './views/category/index';
-import CategoryCreateComponent from './views/category/create';
-import CategoryEditComponent from './views/category/edit';
+import TagIndexComponent from './views/tag/index';
+import TagCreateComponent from './views/tag/create';
+import TagEditComponent from './views/tag/edit';
+
+import CommentIndexComponent from './views/comment/index';
+import CommentCreateComponent from './views/comment/create';
+import CommentEditComponent from './views/comment/edit';
+
+import UserIndexComponent from './views/user/index';
+import UserCreateComponent from './views/user/create';
+import UserEditComponent from './views/user/edit';
 
 export default function routeConfig(router) {
     router.map({
@@ -42,6 +54,19 @@ export default function routeConfig(router) {
                     name: 'admin_edit',
                     component: AdminEditComponent
                 },
+                //category
+                '/category/index': {
+                    name: 'category_index',
+                    component: CategoryIndexComponent
+                },
+                '/category/create': {
+                    name: 'category_create',
+                    component: CategoryCreateComponent
+                },
+                '/category/edit/:id': {
+                    name: 'category_edit',
+                    component: CategoryEditComponent
+                },
                 //post
                 '/post/index': {
                     name: 'post_index',
@@ -55,18 +80,44 @@ export default function routeConfig(router) {
                     name: 'post_edit',
                     component: PostEditComponent
                 },
-                //category
-                '/category/index': {
-                    name: 'category_index',
-                    component: CategoryIndexComponent
+                //tag
+                '/tag/index': {
+                    name: 'tag_index',
+                    component: TagIndexComponent
                 },
-                '/category/create': {
-                    name: 'category_create',
-                    component: CategoryCreateComponent
+                '/tag/create': {
+                    name: 'tag_create',
+                    component: TagCreateComponent
                 },
-                '/category/edit/:id': {
-                    name: 'category_edit',
-                    component: CategoryEditComponent
+                '/tag/edit/:id': {
+                    name: 'tag_edit',
+                    component: TagEditComponent
+                },
+                //tag
+                '/comment/index': {
+                    name: 'comment_index',
+                    component: CommentIndexComponent
+                },
+                '/comment/create': {
+                    name: 'comment_create',
+                    component: CommentCreateComponent
+                },
+                '/comment/edit/:id': {
+                    name: 'comment_edit',
+                    component: CommentEditComponent
+                },
+                //user
+                '/user/index': {
+                    name: 'user_index',
+                    component: UserIndexComponent
+                },
+                '/user/create': {
+                    name: 'user_create',
+                    component: UserCreateComponent
+                },
+                '/user/edit/:id': {
+                    name: 'user_edit',
+                    component: UserEditComponent
                 },
             }
         }

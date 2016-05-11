@@ -7,18 +7,47 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
 
+    /**
+     * @var string
+     */
     protected $table = 'posts';
 
-    protected $fillable = ['category_id', 'title', 'description', 'image', 'visible'];
+    /**
+     * @var array
+     */
+    protected $fillable = ['category_id', 'title', 'content', 'description', 'image', 'visible'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function postImages()
     {
-        return $this->hasMany('app\PostImage', 'post_id', 'id');
+        return $this->hasMany('App\PostImage', 'post_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function category()
     {
         return $this->belongsTo('App\Category', 'category_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeLatest($query)
+    {
+        return $query->orderBy('updated_at', 'desc');
     }
 
 }

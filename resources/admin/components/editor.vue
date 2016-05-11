@@ -84,7 +84,7 @@
             });
         },
         watch: {
-            'model': function (val, oldVal) {
+            model: function (val, oldVal) {
                 if (!this.isChanging) {
                     this.isChanging = true;
                     var code = (val === null ? "" : val);

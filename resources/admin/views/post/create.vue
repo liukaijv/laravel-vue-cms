@@ -42,6 +42,18 @@
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">文章标签：</label>
+
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="select2" multiple="multiple" style="display: none;">
+                                            <option v-for="tag in tags" :value="tag.id">
+                                                {{tag.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">文章描述：</label>
 
                                     <div class="col-sm-10">
@@ -84,14 +96,26 @@
     import BreadCrumb from '../partial/bread-crumb';
     import Editor from '../../components/editor';
 
+    import '../../assets/js/plugins/select2/select2.css';
+    import '../../assets/js/plugins/select2/select2';
+
     export default {
         ready: function () {
+            let vm = this;
             this.$http.get('post/create').then(function (result) {
                 let data = result.data;
-                if (data.flag == true && data.data) {
-                    this.categories = data.data;
+                if (data.flag == true) {
+                    this.categories = data.categories;
+                    this.tags = data.tags;
                 }
-            })
+            });
+
+            $('#select2').select2({
+                placeholder: '选择标签',
+                tags: true
+            }).on('change.select2', function () {
+                vm.data.tagIds = ($('#select2').val());
+            }).trigger('change');
         },
         data: function () {
             return {
@@ -107,9 +131,11 @@
                     }
                 ],
                 categories: [],
+                tags: [],
                 data: {
                     title: '',
                     category_id: 0,
+                    tagIds: [],
                     description: '',
                     content: ''
                 },
