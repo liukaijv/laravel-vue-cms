@@ -1,5 +1,7 @@
 # laravel-vue-cms
 
+learn laravel & vue.js
+
 ## clone & install dependencies
 
 ```
@@ -29,7 +31,12 @@ DB_PASSWORD=
 ## run 
 
 ```
+php artisan migrate
+
+php artisan db:seed
+
 npm run web
+
 npm run dev
 
 ```
