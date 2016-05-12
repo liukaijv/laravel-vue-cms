@@ -1,6 +1,6 @@
 # laravel-vue-cms
 
-learn laravel & vue.js, built with laravel5.2, vue.js 1.0+
+learn laravel & vue.js, built on laravel5.2, vue.js 1.0+ and INSPINIA Admin Theme
 
 ## clone & install dependencies
 

@@ -21,6 +21,14 @@ class AdminsTableSeeder extends Seeder
             'is_super' => 1
         ]);
 
+        \App\Admin::create([
+            'name' => 'demo',
+            'email' => 'demo@qq.com',
+            'password' => Hash::make('demo'),
+            'image' => $faker->imageUrl(100, 100),
+            'is_super' => 1
+        ]);
+
         foreach (range(1, 10) as $index) {
             \App\Admin::create([
                 'name' => 'admin' . $index,
