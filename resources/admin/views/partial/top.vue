@@ -6,9 +6,10 @@
                         @click="toggleCanvasMenu">
                     <i class="fa fa-bars"></i>
                 </button>
-                <form role="search" class="navbar-form-custom" @submit="search">
+                <form role="search" class="navbar-form-custom">
                     <div class="form-group">
-                        <input type="text" placeholder="搜索…" class="form-control" v-model="search_text">
+                        <input type="text" placeholder="搜索…" class="form-control" v-model="search_text"
+                               @keyup="onKeyup | debounce 300">
                     </div>
                 </form>
 
@@ -40,8 +41,8 @@
         },
         mixins: [AuthMixin],
         methods: {
-            search: function () {
-                this.$broadcast(this.search_text);
+            onKeyup: function () {
+                this.$root.$broadcast('onSearch', this.search_text);
                 return false;
             },
             toggleCanvasMenu: function () {

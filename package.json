@@ -1,5 +1,9 @@
 {
-  "private": true,
+  "name": "laravel-vue-cms",
+  "version": "0.0.1",
+  "description": "a cms built on laravel5.2, vue.js 1.0+",
+  "author": "noop",
+  "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --inline --hot",
     "web": "php artisan serve"
@@ -27,5 +31,9 @@
     "vue-style-loader": "^1.0.0",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liukaijv/laravel-vue-cms.git"
   }
 }

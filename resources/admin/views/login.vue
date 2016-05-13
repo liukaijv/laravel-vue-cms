@@ -3,7 +3,7 @@
         <div>
             <form class="m-t" role="form" onsubmit="return false">
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="邮箱地址" required v-model="credentials.email">
+                    <input type="text" class="form-control" placeholder="邮箱/用户名" required v-model="credentials.name">
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" placeholder="密码" required
@@ -23,7 +23,7 @@
         data: function () {
             return {
                 credentials: {
-                    email: '',
+                    name: '',
                     password: ''
                 }
 
@@ -35,8 +35,10 @@
                 let vm = this;
 
                 auth.login(vm, vm.credentials).then(function () {
-                    vm.$toast['success']('登陆成功');
                     vm.$route.router.go('/main/dashboard');
+                    vm.$toast['success']('登陆成功');
+                }, function (error) {
+                    vm.$toast['success'](error.msg);
                 });
 
             }

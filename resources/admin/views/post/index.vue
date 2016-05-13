@@ -65,7 +65,7 @@
                 columns: {
                     id: '#',
                     title: '标题',
-                    category: ['所属分类','name'],
+                    category: ['所属分类', 'name'],
                     created_at: '创建时间'
                 }
 
@@ -104,6 +104,9 @@
             onChangePage: function (page) {
                 this.page = page;
                 this.getData();
+            },
+            onSearch: function (text) {
+                console.log(text);
             }
         }
     }
