@@ -1,11 +1,11 @@
 # laravel-vue-cms
 
-learn laravel & vue.js, built on laravel5.2, vue.js 1.0+ and INSPINIA Admin Theme
+学习laravel和vue，用laravel5.2, vue.js 1.0+ and INSPINIA Admin Theme写的
 
 ## 线上演示
 
 http://115.28.223.2:9000/admin/
-user: demo
+user: demo & demo@qq.com
 password: demo
 
 ## 本地运行

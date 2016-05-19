@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --hot",
     "web": "php artisan serve",
-    "build": "webpack",
+    "build": "webpack"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
