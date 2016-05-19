@@ -15,7 +15,7 @@ class AuthController extends Controller
 
     public function postLogin(Request $request)
     {
-        $result = ['flag' => false, 'msg' => '登陆失败'];
+        $result = ['flag' => false, 'msg' => '登陆失败，账户和密码不企配'];
         $credentials = $request->only('email', 'password');
         if (Auth::guard('admin')->attempt($credentials)) {
             $token = uniqid();
