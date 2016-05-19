@@ -13,10 +13,18 @@ use App\Admin;
 class AuthController extends Controller
 {
 
+    protected $username = 'name';
+
     public function postLogin(Request $request)
     {
+
         $result = ['flag' => false, 'msg' => '登陆失败，账户和密码不企配'];
-        $credentials = $request->only('email', 'password');
+        $result = ['flag' => false, 'msg' => '登陆失败'];
+        $credentials = $request->only('name', 'password');
+        if (str_contains($credentials['name'], '@')) {
+            $credentials['email'] = $credentials['name'];
+            unset($credentials['name']);
+        }
         if (Auth::guard('admin')->attempt($credentials)) {
             $token = uniqid();
             $id = Auth::guard('admin')->id();

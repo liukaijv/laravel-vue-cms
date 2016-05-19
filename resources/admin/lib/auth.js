@@ -10,6 +10,7 @@ export default {
     login(context, creds) {
 
         return new Promise(function (resolve, reject) {
+            let error_result = {flag: false, msg: "登陆失败"};
             context.$http.post(LOGIN_URL, creds).then((result) => {
                 let data = result.data;
                 if (data.flag === true && data.jwt_token) {
@@ -17,13 +18,13 @@ export default {
                     localStorage.setItem('jwt_user', JSON.stringify(data.data));
                     this.authenticated = true;
                     this.user = data.data;
-                    resolve(data.jwt_token);
+                    resolve(result);
                 } else {
-                    reject();
+                    reject(error_result);
                 }
 
             }, (error) => {
-                reject(error);
+                reject(error_result);
             });
 
         }.bind(this));
