@@ -6,8 +6,9 @@
 
 [demo](http://115.28.223.2:9000/admin/ "demo")
 
-user: demo & demo@qq.com
-password: demo
+账号: demo 或者 demo@qq.com
+
+密码: demo
 
 ## 本地运行
 
