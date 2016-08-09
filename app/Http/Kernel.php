@@ -33,11 +33,8 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
-        ],
-        'backend' => [
-            'throttle:60,1',
-            'jwt_token'
-        ],
+            'cross_domain'
+        ]
     ];
 
     /**
@@ -54,5 +51,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'jwt_token' => \App\Http\Middleware\AuthenticateBackend::class,
+        'cross_domain' => \App\Http\Middleware\CrossDomain::class,
     ];
 }

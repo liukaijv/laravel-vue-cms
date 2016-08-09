@@ -64,7 +64,10 @@ module.exports = {
         hot: true,
         noInfo: false,
         proxy: {
-            "/backend/*": "http://localhost:8000"
+            "/backend/*": {                
+                target: "http://localhost:8000",
+                changeOrigin: true         
+            }
         }
     }
 };

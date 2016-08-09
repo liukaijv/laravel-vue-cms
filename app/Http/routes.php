@@ -35,13 +35,13 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 
-Route::group(['namespace' => 'Backend', 'prefix' => 'backend'], function () {
+Route::group(['namespace' => 'Backend', 'prefix' => 'backend','middleware'=>'api'], function () {
 
     Route::post('login', 'AuthController@postLogin');
     Route::post('logout', 'AuthController@postLogout');
     Route::post('upload', 'CommonController@upload');
 
-    Route::group(['middleware' => ['backend']], function () {
+    Route::group(['middleware' => ['jwt_token']], function () {
 
         Route::get('dashboard', 'DashboardController@index');
         Route::get('admin_info', 'AdminController@getAdminByToken');
