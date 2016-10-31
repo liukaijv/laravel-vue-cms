@@ -1,5 +1,7 @@
 # laravel-vue-cms
 
+> 这个项目一直没有更新，把前端部分作了些修改放这个项目里了[https://github.com/liukaijv/vue-admin-template](https://github.com/liukaijv/vue-admin-template)。
+
 学习laravel和vue，用laravel5.2, vue.js 1.0+ and INSPINIA Admin Theme写的
 
 ## 线上演示
