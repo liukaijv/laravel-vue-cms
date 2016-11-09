@@ -6,7 +6,7 @@
 
 ## 线上演示
 
-[demo](http://115.28.223.2:9000/admin/ "demo")
+[demo](http://115.28.223.2:8765/admin/ "demo")
 
 账号: demo 或者 demo@qq.com
 
