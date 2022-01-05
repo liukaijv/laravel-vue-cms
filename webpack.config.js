@@ -1,3 +1,4 @@
+//code
 var path = require('path');
 var distPath = path.join(__dirname, 'public/admin');
 var srcPath = path.join(__dirname, 'resources/admin');
